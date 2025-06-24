@@ -85,7 +85,8 @@ class CircularQueue {
     }
 
     public boolean enqueue(Slot slot) {
-        if (isFull()) return false;
+        if (isFull())
+            return false;
         rear = (rear + 1) % capacity;
         slots[rear] = slot;
         size++;
@@ -93,7 +94,8 @@ class CircularQueue {
     }
 
     public Slot dequeue() {
-        if (isEmpty()) return null;
+        if (isEmpty())
+            return null;
         Slot slot = slots[front];
         slots[front] = null;
         front = (front + 1) % capacity;
@@ -186,7 +188,7 @@ class MaxHeap {
     }
 }
 
-// Entry/Exit log using LinkedList with file handling
+// Entry/Exit log using LinkedList (we handled file handling in this class)
 class EntryExitLog {
     class LogEntry {
         String licensePlate;
@@ -237,20 +239,18 @@ class EntryExitLog {
                 }
             }
         } catch (IOException e) {
-            // File might not exist yet, that's okay
+            // just to check that file is created or not.
         }
     }
 
     private void saveLogsToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_FILE))) {
-            // Sort logs by entry time before saving
-            logs.sort(Comparator.comparing(log -> log.entryTime));
             for (LogEntry log : logs) {
                 writer.write(log.toString());
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.err.println("Error writing to log file: " + e.getMessage());
+            System.err.println("Error,while writing to log file: " + e.getMessage());
         }
     }
 
