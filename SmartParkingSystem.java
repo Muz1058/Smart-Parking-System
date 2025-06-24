@@ -3,6 +3,7 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.io.*;
+import javax.swing.table.DefaultTableModel;
 
 // Represents a parking slot
 class Slot {
@@ -340,6 +341,12 @@ class ParkingManager {
         if (licensePlate == null || licensePlate.trim().isEmpty()) {
             return "Invalid license plate";
         }
+        // Check for duplicate license plate
+        for (String key : vehicleToSlot.keySet()) {
+            if (key.startsWith(licensePlate + "_")) {
+                return "Vehicle with license plate " + licensePlate + " is already parked";
+            }
+        }
         String compositeKey = licensePlate + "_" + System.currentTimeMillis();
         Slot slot = isVip ? vipSlots.extractMax() : regularSlots.dequeue();
         if (slot == null) {
@@ -380,6 +387,10 @@ class ParkingManager {
     public HashMap<String, Slot> getVehicleToSlot() {
         return vehicleToSlot;
     }
+
+    public EntryExitLog getLog() {
+        return log;
+    }
 }
 
 // Main Swing Application
@@ -416,12 +427,16 @@ public class SmartParkingSystem {
         JButton checkOutButton = new JButton("Check Out");
         checkOutButton.setBackground(new Color(244, 67, 54));
         checkOutButton.setForeground(Color.WHITE);
+        JButton showAllVehiclesButton = new JButton("Show All Parked Vehicles");
+        showAllVehiclesButton.setBackground(new Color(156, 39, 176));
+        showAllVehiclesButton.setForeground(Color.WHITE);
 
         entryPanel.add(new JLabel("License Plate:"));
         entryPanel.add(licensePlateField);
         entryPanel.add(vipCheck);
         entryPanel.add(checkInButton);
         entryPanel.add(checkOutButton);
+        entryPanel.add(showAllVehiclesButton);
 
         // Status and Analytics
         statusArea = new JTextArea(10, 40);
@@ -476,6 +491,8 @@ public class SmartParkingSystem {
             statusArea.append(analyticsText);
         });
 
+        showAllVehiclesButton.addActionListener(e -> showAllParkedVehicles());
+
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -490,6 +507,38 @@ public class SmartParkingSystem {
                     slot.isVip() ? "VIP" : "Regular");
             listModel.addElement(vehicleInfo);
         }
+    }
+
+    private void showAllParkedVehicles() {
+        JFrame logFrame = new JFrame("All Parked Vehicles");
+        logFrame.setSize(700, 400);
+        logFrame.setLayout(new BorderLayout());
+        logFrame.getContentPane().setBackground(Color.LIGHT_GRAY);
+
+        // Define table columns
+        String[] columnNames = {"License Plate", "Slot ID", "Entry Time", "Exit Time", "VIP"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        JTable logTable = new JTable(tableModel);
+        logTable.setBackground(Color.WHITE);
+        logTable.setFillsViewportHeight(true);
+        JScrollPane logScroll = new JScrollPane(logTable);
+        logScroll.setPreferredSize(new Dimension(650, 350));
+
+        // Populate the table with log entries
+        for (EntryExitLog.LogEntry entry : manager.getLog().getLogs()) {
+            Object[] rowData = {
+                    entry.licensePlate,
+                    entry.slotId,
+                    entry.entryTime.toString(),
+                    entry.exitTime == null ? "Still Parked" : entry.exitTime.toString(),
+                    entry.isVip
+            };
+            tableModel.addRow(rowData);
+        }
+
+        logFrame.add(logScroll, BorderLayout.CENTER);
+        logFrame.setLocationRelativeTo(frame);
+        logFrame.setVisible(true);
     }
 
     public static void main(String[] args) {
