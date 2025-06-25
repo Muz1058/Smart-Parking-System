@@ -116,7 +116,7 @@ This document contains:
 
 1. Clone this repository:
 ```bash
-git clone https://github.com/yourusername/SmartParkingSystem.git
+git clone https://github.com/muz1058/SmartParkingSystem.git
 ````
 
 2. Open `SmartParkingSystem.java` in any Java IDE (e.g., IntelliJ, Eclipse)
@@ -132,12 +132,12 @@ java SmartParkingSystem
 
 ## 👨‍💻 Authors
 
-| Name             | Reg No.       | Role                |
-| ---------------- | ------------- | ------------------- |
-| Areef ul Rehman  | L1F23BSSE0389 | Developer           |
-| Talha Atif       | L1F23BSSE0065 | Developer           |
-| Muzaffar Ali     | L1F23BSSE0395 | GUI + Documentation |
-| Abdullah Maqbool | L1F23BSSE0391 | DSA + Analytics     |
+| Name             | Reg No.       |
+| ---------------- | ------------- |
+| Areef ul Rehman  | L1F23BSSE0389 |
+| Talha Atif       | L1F23BSSE0065 |
+| Muzaffar Ali     | L1F23BSSE0395 |
+| Abdullah Maqbool | L1F23BSSE0391 |
 
 📘 *Section: P4*
 🧑‍🏫 *Supervised By: Ma’am Javaria Tanveer*
