@@ -140,7 +140,7 @@ java SmartParkingSystem
 | Abdullah Maqbool | L1F23BSSE0391 | DSA + Analytics     |
 
 📘 *Section: P4*
-🧑‍🏫 *Submitted to: Ma’am Javaria Tanveer*
+🧑‍🏫 *Supervised By: Ma’am Javaria Tanveer*
 
 ---
 
