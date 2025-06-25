@@ -162,5 +162,4 @@ Unauthorized commercial use is discouraged.
 
 > *“Efficiency is doing better what is already being done.” — Peter Drucker*
 
-```
 
