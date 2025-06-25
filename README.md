@@ -1,234 +1,167 @@
 
-````markdown
-# 🚗 Smart Parking System with Analytics
+```markdown
+<h1 align="center">🚗 Smart Parking System with Analytics</h1>
 
-A Java-based desktop application that intelligently manages vehicle entry/exit operations in a large-scale parking facility. It features dynamic slot allocation, VIP prioritization, persistent logging, and analytical insights — all wrapped in an interactive Swing GUI.
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-Swing-orange?style=for-the-badge&logo=java&logoColor=white" />
+  <img src="https://img.shields.io/badge/Data%20Structures-Queue%2C%20Heap%2C%20LinkedList-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/GUI-Interactive-green?style=for-the-badge" />
+</p>
+
+<p align="center">An intelligent, Java-based desktop application that manages parking slots with VIP prioritization, real-time GUI, persistent logging, and analytics.</p>
 
 ---
 
-## 📘 Table of Contents
+## 🧠 Project Summary
 
-- [🔧 Features](#-features)
-- [🧠 System Architecture](#-system-architecture)
-- [🧩 Data Structures Used](#-data-structures-used)
-- [🏗️ Class Design Overview](#-class-design-overview)
-- [📊 Analytics Engine](#-analytics-engine)
-- [🖥️ GUI Overview](#-gui-overview)
-- [🚀 How to Run](#-how-to-run)
-- [📁 Project Structure](#-project-structure)
-- [📷 Screenshots](#-screenshots)
-- [📚 Contributors](#-contributors)
+> “Smart Parking System with Analytics” is a Swing-based desktop application built in Java that efficiently manages 1000 parking slots (100 VIP). It supports real-time vehicle entry/exit, VIP prioritization, data persistence via logs, and analytics such as average stay time and peak hour.
+
+---
+
+## 📁 Repository Structure
+
+```
+
+📦 SmartParkingSystem
+┣ 📄 SmartParkingSystem.java     ← Core implementation (All Classes + GUI)
+┣ 📄 SPS\_report.docx             ← Design, Complexity & Class Analysis Report
+┗ 📄 parking\_logs.txt            ← Runtime-generated log file (auto-created)
+
+````
 
 ---
 
 ## 🔧 Features
 
-- ✅ Efficient parking slot management using CircularQueue and MaxHeap
-- ✅ VIP vs Regular slot distinction
-- ✅ Real-time check-in/check-out via GUI
-- ✅ Persistent logging to `parking_logs.txt`
-- ✅ Analytics: Average stay time & peak hour
-- ✅ Search vehicle by license plate
-- ✅ Dynamic vehicle listing
-- ✅ Intuitive Swing-based user interface
+- ✅ Real-time GUI for vehicle entry & exit
+- ⭐ VIP prioritization using MaxHeap
+- 🔄 CircularQueue for regular slot rotation
+- 🧾 LinkedList-based persistent logging
+- 📊 Analytics: Average Stay Time & Peak Hour
+- 📋 View all parked vehicles (with log history)
+- 🧠 DSA-focused structure with performance-optimized methods
 
 ---
 
-## 🧠 System Architecture
+## 🧩 System Design Overview
 
-```plaintext
-                 +---------------------+
-                 | SmartParkingSystem  |
-                 |  (Main GUI Class)   |
-                 +---------------------+
-                           |
-             +-------------+-------------+
-             |                           |
-  +-------------------+     +------------------------+
-  |  ParkingManager    |<--->|   EntryExitLog         |
-  +-------------------+     +------------------------+
-             |
-    +--------+--------+
-    |                 |
-+--------+       +-----------+
-| MaxHeap|       |CircularQueue|
-|  (VIP) |       |  (Regular)  |
-+--------+       +-----------+
-````
+| Component         | Purpose                              | Data Structure   |
+|------------------|--------------------------------------|------------------|
+| Regular Slots     | FIFO slot management                 | `CircularQueue`  |
+| VIP Slots         | Priority handling (lowest slot ID)   | `Min-Heap`       |
+| Entry/Exit Logs   | Persistent tracking of records       | `LinkedList`     |
+| Lookup Mechanism  | Map vehicle to assigned slot         | `HashMap`        |
 
----
-
-## 🧩 Data Structures Used
-
-| Component       | Data Structure    | Purpose                          |
-| --------------- | ----------------- | -------------------------------- |
-| Regular Slots   | CircularQueue     | FIFO management of regular slots |
-| VIP Slots       | MaxHeap           | Prioritized access for VIP users |
-| Vehicle Mapping | HashMap           | Fast lookup by license plate     |
-| Logs            | LinkedList + File | Persistent entry/exit logging    |
-
----
-
-## 🏗️ Class Design Overview
-
-### 🔹 Slot
-
-Represents a parking slot.
-
-| Method           | Time Complexity |
-| ---------------- | --------------- |
-| occupy(), free() | O(1)            |
-
----
-
-### 🔹 Vehicle
-
-Encapsulates vehicle info like license plate, VIP status, and entry time.
-
-| Method                  | Time Complexity |
-| ----------------------- | --------------- |
-| getLicensePlate(), etc. | O(1)            |
-
----
-
-### 🔹 CircularQueue
-
-Handles regular slots.
-
-| Method  | Time Complexity |
-| ------- | --------------- |
-| enqueue | O(1)            |
-| dequeue | O(1)            |
-
----
-
-### 🔹 MaxHeap
-
-VIP slot manager with prioritized allocation (min slotId first).
-
-| Method     | Time Complexity |
-| ---------- | --------------- |
-| insert     | O(log n)        |
-| extractMax | O(log n)        |
-| heapify    | O(log n)        |
-
----
-
-### 🔹 EntryExitLog
-
-Manages log entries and saves them to a file.
-
-| Method    | Time Complexity |
-| --------- | --------------- |
-| addEntry  | O(m)            |
-| addExit   | O(m)            |
-| load/save | O(m)            |
-
----
-
-### 🔹 AnalyticsEngine
-
-Analyzes logs to extract parking metrics.
-
-| Method             | Time Complexity |
-| ------------------ | --------------- |
-| getAverageStayTime | O(m)            |
-| getPeakHour        | O(m + 24)       |
-
----
-
-### 🔹 ParkingManager
-
-Core coordinator that connects all components.
-
-| Method               | Time Complexity |
-| -------------------- | --------------- |
-| checkInVehicle       | O(n)            |
-| checkOutVehicle      | O(n)            |
-| getAnalytics(), etc. | O(1)            |
+🧠 *Log persistence is handled via `parking_logs.txt`.*
 
 ---
 
 ## 📊 Analytics Engine
 
-* **Average Stay Time Formula:**
-
-  ```math
-  Avg. Stay = (Sum of all completed parking durations in minutes) / (Total completed vehicles)
-  ```
-
-* **Peak Hour Formula:**
-
-  ```math
-  Peak Hour = Hour of day with max entry frequency
-  ```
+| Metric              | Formula                                             | Time Complexity |
+|---------------------|------------------------------------------------------|------------------|
+| **Average Stay Time** | Total duration / No. of completed vehicles         | O(m)              |
+| **Peak Hour**        | Most frequent hour of entry (0-23)                  | O(m + 24)         |
 
 ---
 
-## 🖥️ GUI Overview
+## 🧪 Class-Level Complexity
 
-Built using **Java Swing**, the GUI contains:
+| Class               | Key Function                     | Time Complexity |
+|---------------------|----------------------------------|------------------|
+| `Slot`              | `occupy`, `free`                 | O(1)             |
+| `Vehicle`           | Getters                          | O(1)             |
+| `CircularQueue`     | `enqueue`, `dequeue`             | O(1)             |
+| `MaxHeap`           | `insert`, `extractMax`           | O(log n)         |
+| `EntryExitLog`      | `addEntry`, `addExit`            | O(m)             |
+| `AnalyticsEngine`   | `getAverageStayTime`, `getPeakHour` | O(m), O(m + 24) |
+| `ParkingManager`    | `checkIn`, `checkOut`            | O(n) worst case  |
+| `SmartParkingSystem`| GUI functions                    | O(p), O(m)       |
 
-* ✅ Vehicle Entry/Exit Panel
-* ✅ Parked Vehicles List (JList)
-* ✅ Status & Analytics Output (JTextArea)
-* ✅ Log Viewer Table (JTable)
-* ✅ Buttons: `Check In`, `Check Out`, `Show Analytics`, `Show All Parked Vehicles`
+---
+
+## 📷 GUI Screenshots
+
+<details>
+<summary><b>Main Frame (Click to Expand)</b></summary>
+
+![Main Frame](https://via.placeholder.com/700x300.png?text=Main+Frame+GUI+Screenshot)
+
+</details>
+
+<details>
+<summary><b>Parked Vehicles Log</b></summary>
+
+![Parked Vehicles](https://via.placeholder.com/700x300.png?text=Parked+Vehicles+Frame)
+
+</details>
+
+---
+
+## 📜 Documentation
+
+📄 **SPS_report.docx** (included in repo)
+
+This document contains:
+
+- 📌 Project Overview
+- 🧠 Data Structure Justification
+- 🧮 Algorithm & Time Complexity Analysis
+- 🧱 Class Responsibilities
+- 🖼️ Class Diagram (Placeholder)
+- 🧾 GUI Screenshots
 
 ---
 
 ## 🚀 How to Run
 
-### Prerequisites
+1. Clone this repository:
+```bash
+git clone https://github.com/yourusername/SmartParkingSystem.git
+````
 
-* Java JDK 8 or above
-* IDE (e.g., IntelliJ IDEA, Eclipse) or terminal
+2. Open `SmartParkingSystem.java` in any Java IDE (e.g., IntelliJ, Eclipse)
 
-### Steps
+3. Run the file:
 
 ```bash
 javac SmartParkingSystem.java
 java SmartParkingSystem
 ```
 
-On launch, the Swing GUI will open for interaction.
+---
+
+## 👨‍💻 Authors
+
+| Name             | Reg No.       | Role                |
+| ---------------- | ------------- | ------------------- |
+| Areef ul Rehman  | L1F23BSSE0389 | Developer           |
+| Talha Atif       | L1F23BSSE0065 | Developer           |
+| Muzaffar Ali     | L1F23BSSE0395 | GUI + Documentation |
+| Abdullah Maqbool | L1F23BSSE0391 | DSA + Analytics     |
+
+📘 *Section: P4*
+🧑‍🏫 *Submitted to: Ma’am Javaria Tanveer*
 
 ---
 
-## 📁 Project Structure
+## 💡 Future Enhancements
 
-```plaintext
-SmartParkingSystem/
-├── SmartParkingSystem.java     # Main class (all other classes nested)
-├── parking_logs.txt            # Log file (auto-generated)
-├── README.md                   # Project documentation
-└── SPS_report.docx             # Word-formatted documentation
+* 📲 Mobile App version (Android)
+* 📡 Real-time sensor integration (IoT)
+* ☁️ Cloud-based analytics dashboard
+* 🔐 Admin authentication system
+
+---
+
+## 📑 License
+
+This project is for academic purposes under course **Data Structures and Algorithms**.
+Unauthorized commercial use is discouraged.
+
+---
+
+> *“Efficiency is doing better what is already being done.” — Peter Drucker*
+
 ```
 
----
-
-## 📷 Screenshots
-
-📌 *Screenshots available in the `SPS_report.docx` file.*
-
----
-
-## 📚 Contributors
-
-| Name             | Registration No. |
-| ---------------- | ---------------- |
-| Areef ul Rehman  | L1F23BSSE0389    |
-| Talha Atif       | L1F23BSSE0065    |
-| Muzaffar Ali     | L1F23BSSE0395    |
-| Abdullah Maqbool | L1F23BSSE0391    |
-
-🧑‍🏫 **Supervised By**: Ma’am Javaria Tanveer
-
----
-
-```
-
----
-
-Let me know if you'd like this in a `.md` file or Word format. I can also help convert it into a PDF or add diagrams/images.
-```
