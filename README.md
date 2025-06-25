@@ -79,24 +79,6 @@
 
 ---
 
-## 📷 GUI Screenshots
-
-<details>
-<summary><b>Main Frame (Click to Expand)</b></summary>
-
-![Main Frame](https://via.placeholder.com/700x300.png?text=Main+Frame+GUI+Screenshot)
-
-</details>
-
-<details>
-<summary><b>Parked Vehicles Log</b></summary>
-
-![Parked Vehicles](https://via.placeholder.com/700x300.png?text=Parked+Vehicles+Frame)
-
-</details>
-
----
-
 ## 📜 Documentation
 
 📄 **SPS_report.docx** (included in repo)
