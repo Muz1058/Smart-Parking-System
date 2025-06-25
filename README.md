@@ -1,6 +1,3 @@
-Here is a **heavy and professional `README.md` file** tailored for your Smart Parking System project. It includes technical overviews, structure, installation, usage, and key design points—perfect for GitHub or project submission:
-
----
 
 ````markdown
 # 🚗 Smart Parking System with Analytics
@@ -212,7 +209,7 @@ SmartParkingSystem/
 
 ## 📷 Screenshots
 
-📌 *Screenshots available in the `SPS_report.docx` file under Section 5.*
+📌 *Screenshots available in the `SPS_report.docx` file.*
 
 ---
 
@@ -228,8 +225,6 @@ SmartParkingSystem/
 🧑‍🏫 **Supervised By**: Ma’am Javaria Tanveer
 
 ---
-
-> 💡 *This project was developed as part of the Data Structures & Algorithms Lab (Spring 2025) at FAST-NUCES.*
 
 ```
 
