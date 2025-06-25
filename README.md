@@ -1,5 +1,4 @@
 
-```markdown
 <h1 align="center">🚗 Smart Parking System with Analytics</h1>
 
 <p align="center">
